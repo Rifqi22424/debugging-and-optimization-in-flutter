@@ -1,0 +1,21 @@
+# CI: setiap push dan pull request, GitHub menjalankan analyze dan test.
+# Jika ada yang gagal, commit ditandai merah di GitHub.
+name: Flutter CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.41.8
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
